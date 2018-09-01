@@ -1,0 +1,1 @@
+/* All ALTER TABLE and other commands required to update the database should be kept in this file */

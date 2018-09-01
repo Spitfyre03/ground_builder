@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title><?php echo (isset($page_title) ? $page_title : 'High Voltage Rubber Testing'); ?></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="<?php echo BASE_URL;?>" rel="canonical">
+	<link href="<?php echo BASE_URL; ?>images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+	<link href="<?php echo STYLE_SHEET_URL; ?>" rel="stylesheet" type="text/css">
+	<?php if (!empty($modules['css'])) { ?>
+		<?php foreach ($modules['css'] as $file) { ?>
+			<link href="<?php echo BASE_URL . $file; ?>" rel="stylesheet" type="text/css">
+		<?php } ?>
+	<?php } ?>
+	<meta name="description" content="Certified rubber test lab providing dielectric high voltage rubber testing that meets or exceeds ASTM and ANSI standards."> 
+	<meta name="keywords" content="rubber testing, rubber certification, rubber test lab, certified test lab, high voltage testing, dielectric testing"> 
+	<meta name="robots" content="index, follow">
+	<!--[if lt IE 7]>
+		<script type="text/javascript" src="<?php echo BASE_URL; ?>js/ie_png.js"></script>
+		<script type="text/javascript">
+			ie_png.fix('.png, .logo h1, .box .left-top-corner, .box .right-top-corner, .box .left-bot-corner, .box .right-bot-corner, .box .border-left, .box .border-right, .box .border-top, .box .border-bot, .box .inner, .special dd, #contacts-form input, #contacts-form textarea');
+		</script>
+	<![endif]-->
+</head>
+<body id="page1">
+	<!-- Header -->
+	<header>
+		<a id="banner" href="<?php echo BASE_URL; ?>index.php"></a>
+	</header>
+	<!-- Content -->
+	<div id="content">
+		<div class="container">
+			<?php if (!isset($width_class)) { $width_class = ''; } ?>
+			<div class="<?php echo cleanInput($width_class); ?>">

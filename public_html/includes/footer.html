@@ -1,0 +1,24 @@
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<!-- HTML5 Footer -->
+	<footer>
+		<h4 class="centered">Have a question?</h4>
+		<p class="centered"><a href=""><strong>E-mail</strong></a> or call us at <a href="tel:+1-360-626-9028"><strong>360-626-9028</strong></a> - we are happy to answer any questions you may have.<br>Business hours are 9:00-5:00 Pacific time, M-F.</p>
+		<p class="centered"><a href=""><strong>Our Privacy Policy</strong></a></p>
+		<p class="centered">&copy; - N&amp;L Line Equipment, LLC</p>
+	</footer>
+	<?php if (!empty($modules['footer'])) { ?>
+		<?php foreach ($modules['footer'] as $file) { ?>
+			<?php include PUBLIC_URI . $file; ?>
+		<?php } ?>
+	<?php } ?>
+	<script type="text/javascript" src="<?php echo BASE_URL; ?>js/common.js?v=1.1"></script>
+	<?php if (!empty($modules['javascript'])) { ?>
+		<?php foreach ($modules['javascript'] as $file) { ?>
+			<script type="text/javascript" src="<?php echo BASE_URL . $file; ?>"></script>
+		<?php } ?>
+	<?php } ?>
+</body>
+</html>
