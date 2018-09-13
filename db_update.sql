@@ -21,14 +21,15 @@ CREATE TABLE IF NOT EXISTS `tag_values` (
     `value` varchar(16),
     `priority` INT UNSIGNED NOT NULL UNIQUE,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`group_id`) REFERENCES `tag_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`group_id`) REFERENCES `tag_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Used for assigning tags to items from inventory_catalog */
 CREATE TABLE IF NOT EXISTS `tag_assign` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `item` varchar(32) NOT NULL,
+    `item` INT NOT NULL,
     `tag_id` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`tag_id`) REFERENCES `tag_values` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`item`) REFERENCES `inventory_catalog` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+    FOREIGN KEY (`tag_id`) REFERENCES `tag_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
