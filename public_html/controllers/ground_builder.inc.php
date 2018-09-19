@@ -47,14 +47,4 @@ while($row = $r->fetch_assoc()) {
 	}
 }
 $r->close();
-
-// Use data from POST if available to populate current selections
-$ground_type = (isset($_POST['ground']['type']) ? filter_var($_POST['ground']['type'], FILTER_VALIDATE_INT) : false);
-$ground_gauge = (isset($_POST['ground']['gauge']) ? filter_var($_POST['ground']['gauge'], FILTER_VALIDATE_INT) : false);
-$length = (isset($_POST['ground']['length']) ? filter_var($_POST['ground']['length'], FILTER_VALIDATE_INT) : false);
-$phase_length = (isset($_POST['ground']['phase_length']) ? filter_var($_POST['ground']['phase_length'], FILTER_VALIDATE_INT) : false);
-$color_id = (isset($_POST['ground']['color_id']) ? filter_var($_POST['ground']['color_id'], FILTER_VALIDATE_INT) : false);
-$jacket_kv = (isset($_POST['ground']['jacket_kv']) ? filter_var($_POST['ground']['jacket_kv'], FILTER_VALIDATE_INT) : false);
-$clamps = filter_input(INPUT_POST, 'clamp', FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY);
-$is_cluster = ($ground_type & 2) > 0;
 ?>
