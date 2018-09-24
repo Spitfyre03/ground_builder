@@ -195,7 +195,7 @@ function selectWithCondition(\mysqli $dbc, $fields, $table, $conditions, $matche
 	$ret = false;
 	$stmt = $dbc->prepare($q);
 	if (!$stmt) {
-		throw new \RuntimetException("Failed to prepare statement for query: $q");
+		throw new \RuntimeException("Failed to prepare statement for query: $q");
 	}
 	$bound = bind_stmt_params($stmt, $types, $matches);
 	if (!$bound || !$stmt->execute()) {
@@ -255,5 +255,16 @@ function getDataList(\mysqli $dbc, $column, $table, $where = '', $first = '') {
 		$result->close();
 	}
 	return $ret;
+}
+
+function getValuesFromGroup(\mysqli $dbc, $group) {
+	$group_id = selectWithCondition($dbc, 'id', 'tag_groups', 'tag_groups.group', $group,'s');
+	return getDataList($dbc, 'value', 'tag_values', "group_id=$group_id");
+}
+
+function getItemsFromGroupAndValue(\mysqli $dbc, $value, $group) {
+	$group_id = selectWithCondition($dbc,'id','tag_groups','tag_groups.group',$group,'s');
+	$tag_id = selectWithCondition($dbc,'id','tag_values',array('value','group_id'),array($value,$group_id),'si');
+	return getDataList($dbc, 'item_id', 'tag_assign', "tag_id=$tag_id");
 }
 ?>
