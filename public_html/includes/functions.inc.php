@@ -257,6 +257,13 @@ function getDataList(\mysqli $dbc, $column, $table, $where = '', $first = '') {
 	return $ret;
 }
 
+function filterRequiredInput($type, $var_name) {
+	if (!filter_has_var($type, $var_name)) {
+		throw new \RuntimeException("Attempted to make XMLHTTPRequest without required arg: $var_name");
+	}
+	return filter_input($type, $var_name);
+}
+
 function getValuesFromGroup(\mysqli $dbc, $group) {
 	$group_id = selectWithCondition($dbc, 'id', 'tag_groups', 'tag_groups.group', $group,'s');
 	return getDataList($dbc, 'value', 'tag_values', "group_id=$group_id");
