@@ -163,9 +163,9 @@ function copy_value($v) {
  */
 function selectWithCondition(\mysqli $dbc, $fields, $table, $conditions, $matches, $types, $options='', $force_array = false) {
 	if (count($conditions, true) !== strlen($types)) {
-		throw new \RuntimetException("Conditions and types do not match");
+		throw new \RuntimeException("Conditions and types do not match");
 	} elseif (count($conditions, true) !== count($matches, true)) {
-		throw new \RuntimetException("Conditions and values do not match");
+		throw new \RuntimeException("Conditions and values do not match");
 	}
 	$table = escape_data($table, $dbc);
 	// fields as a single string
@@ -199,7 +199,7 @@ function selectWithCondition(\mysqli $dbc, $fields, $table, $conditions, $matche
 	}
 	$bound = bind_stmt_params($stmt, $types, $matches);
 	if (!$bound || !$stmt->execute()) {
-		throw new \RuntimetException("Database error: $stmt->errno - $stmt->error");
+		throw new \RuntimeException("Database error: $stmt->errno - $stmt->error");
 	}
 	$ret = fetch_assoc_stmt($stmt);
 	$stmt->close();
