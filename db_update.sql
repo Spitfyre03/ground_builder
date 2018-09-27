@@ -1,20 +1,6 @@
 /* All ALTER TABLE and other commands required to update the database should be kept in this file */
 USE `grounds`;
 
-ALTER TABLE `grounds_data`
-DROP FOREIGN KEY `grounds_data_ibfk_1`,
-DROP FOREIGN KEY `grounds_data_ibfk_2`,
-DROP FOREIGN KEY `grounds_data_ibfk_3`,
-DROP FOREIGN KEY `grounds_data_ibfk_4`,
-DROP FOREIGN KEY `grounds_data_ibfk_5`;
-
-DROP TABLE IF EXISTS `clamps`;
-DROP TABLE IF EXISTS `elbow_clamp_kvs`;
-DROP TABLE IF EXISTS `jacket_kvs`;
-DROP TABLE IF EXISTS `clamp_styles`;
-DROP TABLE IF EXISTS `jacket_colors`;
-DROP TABLE IF EXISTS `wire_gauges`;
-
 /* So we don't have to disable key checks */
 DROP TABLE IF EXISTS `tag_assign`;
 DROP TABLE IF EXISTS `tag_values`;
@@ -27,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `tag_groups` (
     `group` VARCHAR(32) NOT NULL UNIQUE,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-INSERT INTO `tag_groups` (`group`) VALUES ('Cable Type'),('AWG'),('Jacket Color'),('KV Rating'),('Connection Type'),('Ferrule Shrouded'),('Ferrule Plating'),('Clamp Style'),('Clamp Mechanism'),('Strain Relief'),('Clamp Jaw'),('Clamp Material'),('Clamp Size'),('ASTM Rating');
+INSERT INTO `tag_groups` (`group`) VALUES ('Cable Type'),('AWG'),('Jacket Color'),('KV Rating'),('Connection Type'),('Ferrule Shrouding'),('Ferrule Material'),('Clamp Style'),('Clamp Mechanism'),('Strain Relief'),('Clamp Jaw'),('Clamp Material'),('Clamp Size'),('ASTM Rating');
 
 /* Table that contains the different values for each group. */
 CREATE TABLE IF NOT EXISTS `tag_values` (
@@ -43,7 +29,7 @@ INSERT INTO `tag_values` (`group_id`,`value`,`priority`) VALUES
 (1,'Ground',1),(1,'Jumper',2),
 (2,'#2',1),(2,'1/0',2),(2,'2/0',3),(2,'4/0',4),
 (3,'Clear',1),(3,'Yellow',2),(3,'Orange',3),(3,'Red',4),(3,'Black',5),(3,'Green',6),(3,'Blue',7),
-(4,NULL,1),(4,'5',2),(4,'15',3),(4,'25',4),(4,'35',5),
+(4,'N/A',1),(4,'5',2),(4,'15',3),(4,'25',4),(4,'35',5),
 (5,'Threaded',1),(5,'Pin',2),
 (6,'Unshrouded',1),(6,'Shrouded',2),
 (7,'Copper',1),(7,'Tin-plated Copper',2),
@@ -51,7 +37,9 @@ INSERT INTO `tag_values` (`group_id`,`value`,`priority`) VALUES
 (9,'Eye Screw',1),(9,'T-Handle',2),(9,'Bayonet',3),
 (10,'Strain Relief',1),(10,'No Strain Relief',2),
 (11,'Smooth',1),(11,'Serrated',2),
-(12,'Aluminum',1),(12,'Bronze',2);
+(12,'Aluminum',1),(12,'Bronze',2),
+
+(5,'Elbow',3);
 
 /* Used for assigning tags to items from inventory_catalog */
 CREATE TABLE IF NOT EXISTS `tag_assign` (
@@ -139,7 +127,7 @@ INSERT INTO `tag_assign` (`item_id`,`tag_id`)VALUES
 (128538,5),(128538,20),(128538,21),(128538,23),
 (128539,5),(128539,19),(128539,21),(128539,23),
 (128540,5),(128540,19),(128540,22),(128540,23),
-(128541,5),(128541,21),(128541,23),(128541,28),
+(128541,5),(128541,21),(128541,23),(128541,45),
 (128542,6),(128542,20),(128542,21),(128542,23),
 (128543,6),(128543,19),(128543,21),(128543,23),
 (128544,6),(128544,19),(128544,22),(128544,23),
