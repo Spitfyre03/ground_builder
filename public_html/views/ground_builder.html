@@ -1,75 +1,24 @@
+<span id="js_enable"><strong>Note: <em>JavaScript</em> is required for this page to function properly. Please enable scripts to continue.</strong><br><br></span>
+<table id="cable-builder" class="fleft third-width">
+	<thead>
+		<th class="large left row-header"><h4>Your Cables</h4></th>
+	</thead>
+	<tbody class="no_border">
+		<tr id="cable-adder">
+			<td class="center">
+				<button id="cable-button" class="button">Add Cable</button>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr><td>
+			<span class="fleft large">Total</span>
+			<span id="quote-total" class="fright large">$0.00</span>
+		</td></tr>
+	</tfoot>
+</table>
+
 <script type="text/javascript">
 	// Hide 'Enable JavaScript' notification if JS is enabled
 	document.getElementById('js_enable').style.display='none';
-
-	function change_cable() {
-		var cable = +document.getElementById("cable_type").value;
-		var kv = +document.getElementById("jacket_kv").value;
-		var color_id = +document.getElementById("color_id").value;
-		var is_jumper = (cable % 2) === 1;
-		if (!is_jumper && kv !== 0) {
-			document.getElementById("cable_error").innerHTML = "Grounds do not have a kV rating";
-		} else if (is_jumper && kv === 0) {
-			document.getElementById("cable_error").innerHTML = "Jumpers require a kV rating";
-		} else if (is_jumper && color_id === 1) {
-			document.getElementById("cable_error").innerHTML = "Jumpers not available with clear jackets";
-		} else {
-			document.getElementById("cable_error").innerHTML = "";
-		}
-		if (cable > 1) {
-			document.getElementById('cable_header').setAttribute('colspan', 6);
-			document.getElementById('th_cable_length').innerHTML = "Tail Length (feet)";
-			document.getElementById('th_phase_length').style.display='table-cell';
-			document.getElementById('td_phase_length').style.display='table-cell';
-			document.getElementById('clamp_desc_1').innerHTML = "Tail Clamp";
-			document.getElementById('clamp_desc_2').innerHTML = "Phase Clamps";
-		} else {
-			document.getElementById('cable_header').setAttribute('colspan', 5);
-			document.getElementById('th_cable_length').innerHTML = "Cable Length (feet)";
-			document.getElementById('th_phase_length').style.display='none';
-			document.getElementById('td_phase_length').style.display='none';
-			document.getElementById('clamp_desc_1').innerHTML = "Clamp 1";
-			document.getElementById('clamp_desc_2').innerHTML = "Clamp 2";
-		}
-	}
-	
-	function change_style_desc(i) {
-		<?php printf('var clamps = %s;', json_encode($stock_clamps)) ?>
-		// Unary '+' forces value into integer format
-		var style = +document.getElementById("select_style_" + i).value;
-		var index = style + (+document.getElementById("select_size_" + i).value * 16) + (+document.getElementById("select_type_" + i).value * 32);
-		var kv = +document.getElementById("select_kv_" + i).value
-		if (kv !== 0 || style === 4 || style === 9) {
-			if (style !== 4 && style !== 9) {
-				document.getElementById("style_desc_" + i).innerHTML = '<span class="error">This style cannot have a kV rating</span>';
-			} else if (kv === 0) {
-				document.getElementById("style_desc_" + i).innerHTML = '<span class="error">Select a kV rating</span>';
-			} else if (clamps[index] === undefined) {
-				document.getElementById("style_desc_" + i).innerHTML = '<span class="error">Invalid combination</span>';
-			} else if (clamps[index][kv] === undefined) {
-				document.getElementById("style_desc_" + i).innerHTML = '<span class="error">Invalid combination</span>';
-			} else {
-				document.getElementById("style_desc_" + i).innerHTML = clamps[index][kv];
-			}
-		} else {
-			if (clamps[index] !== undefined) {
-				document.getElementById("style_desc_" + i).innerHTML = clamps[index];
-			} else {
-				document.getElementById("style_desc_" + i).innerHTML = '<span class="error">Invalid combination</span>';
-			}
-		}
-		if (style === 10) {
-			document.getElementById("opt_size0_" + i).text = 'Shrouded';
-			document.getElementById("opt_size1_" + i).text = 'Unshrouded';
-		} else if (style > 4 && style < 11) {
-			document.getElementById("opt_size0_" + i).text = 'Regular';
-			document.getElementById("opt_size1_" + i).text = 'Large';
-			if (+document.getElementById("select_size_" + i).value > 0) {
-				document.getElementById("style_desc_" + i).innerHTML = '<span class="error">Style only comes in size \'Regular\'</span>';
-			}
-		} else {
-			document.getElementById("opt_size0_" + i).text = 'Small';
-			document.getElementById("opt_size1_" + i).text = 'Large';
-		}
-	}
 </script>

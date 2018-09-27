@@ -85,13 +85,13 @@ table tr.setup { border:none; display:none;}
 tbody > tr:not(.row-header):hover{ background-color: #D8D8D8;}
 /* Do I want to remove hovering for tr.box? */
 tr.box:hover{ background-color: inherit;}
-td { border-style:solid; border-width:1px; padding:8px;}
+td { border-style:solid; border-width:1px; padding:8px; border-color: inherit;}
 .small-font { font-size:0.75em;}
 .normal-font { font-size:1em;}
 .medium { font-size:1.25em;}
 .large { font-size:1.5em;}
 .huge { font-size:1.75em;}
-table.no_border, tr.no_border th { border-style:none;}
+table.no_border, tbody.no_border tr, tr.no_border th { border-style:none;}
 table.medium-border, table thead.medium-border td, table thead.medium-border th { border-width:2px;}
 table.thick-border { border-width:3px;}
 table.top-half { border-bottom:none;}
