@@ -36,6 +36,8 @@
 		<button type="button" class="button" onclick="createCable()">Create Cable</button>
 	</div>
 	<?php $num_search = '<div class="boxed-content-inner"><span class="large">Search by Manufacturer\'s Part Number</span><br><input name="p-num"></div>'; ?>
+	<?php $back = '<button type="button" class="button" onclick="back(this.parentElement)">Back</button>'; ?>
+	<?php $next = '<button type="button" class="button fright" onclick="next(this.parentElement)">Next</button>'; ?>
 	<div id="cluster-lengths">
 		<div id="length-div-1" class="boxed-content-inner">
 			<span class="large">Cable 1 Length</span><br>
@@ -86,7 +88,8 @@
 			<span class="large">Cable Length</span><br>
 			<input type="number" name="cable-length" class="centered" min="0" value="1">
 		</div>
-		<button type="button" class="button">Next</button>
+		<?php echo $back; ?>
+		<?php echo $next; ?>
 	</div>
 	<div id="template-ferrule-search" class="hide">
 		<h2 class="centered">Search for a Ferrule</h2>
@@ -114,7 +117,8 @@
 			<?php } ?>
 			</select>
 		</div>
-		<button type="button" class="button">Next</button>
+		<?php echo $back; ?>
+		<?php echo $next; ?>
 	</div>
 	<div id="template-clamp-search" class="hide">
 		<h2 class="centered">Search for a Clamp</h2>
@@ -143,7 +147,8 @@
 			<?php } ?>
 			</select>
 		</div>
-		<button type="button" class="button">Next</button>
+		<?php echo $back; ?>
+		<?php echo $next; ?>
 	</div>
 </div>
 
