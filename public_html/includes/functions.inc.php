@@ -266,7 +266,7 @@ function filterRequiredInput($type, $var_name) {
 
 function getValuesFromGroup(\mysqli $dbc, $group) {
 	$group_id = selectWithCondition($dbc, 'id', 'tag_groups', 'tag_groups.group', $group,'s');
-	return getDataList($dbc, 'value', 'tag_values', "group_id=$group_id");
+	return selectWithCondition($dbc,'value','tag_values','group_id',$group_id,'s','ORDER BY priority ASC');
 }
 
 function getItemsFromGroupAndValue(\mysqli $dbc, $value, $group) {
