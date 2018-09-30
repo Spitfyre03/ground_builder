@@ -1,12 +1,12 @@
 <span id="js_enable"><strong>Note: <em>JavaScript</em> is required for this page to function properly. Please enable scripts to continue.</strong><br><br></span>
-<table id="cable-builder" class="fleft third-width">
+<table id="table-quote-display" class="fleft third-width">
 	<thead>
 		<th class="large left row-header"><h4>Your Cables</h4></th>
 	</thead>
-	<tbody class="no_border">
-		<tr id="cable-adder">
+	<tbody id="quote-item-display" class="no_border">
+		<tr id="table-cable-adder">
 			<td class="center">
-				<button id="cable-button" class="button" onclick="addCable()">Add Cable</button>
+				<button class="button" onclick="addCable()">Add Cable</button>
 			</td>
 		</tr>
 	</tbody>
@@ -17,8 +17,8 @@
 		</td></tr>
 	</tfoot>
 </table>
-<div id="template-form-panel" class="hide">
-	<div id="cable-setup">
+<div class="hide">
+	<div id="template-cable-setup">
 		<h2 class="centered">Basic Cable Info</h2>
 		<div>
 			<span class="large">Select the type of cable this will be</span><br>
@@ -31,12 +31,30 @@
 		<div>
 			<span class="large">Enter the number of identical cables needed</span>
 			<br>
-			<input type="number" name="qty" class="centered" min="0" value="1">
+			<input type="number" class="centered" min="0" value="1">
 		</div><br>
 		<button type="button" class="button" onclick="createCable()">Create Cable</button>
 	</div>
-	<?php $num_search = '<span class="large">Search by Manufacturer\'s Part Number</span><br><input name="p-num">'; ?> <!-- This is ugly... -->
-	<div id="cable-search">
+	<?php $num_search = '<div class="boxed-content-inner"><span class="large">Search by Manufacturer\'s Part Number</span><br><input name="p-num"></div>'; ?>
+	<div id="cluster-lengths">
+		<div id="length-div-1" class="boxed-content-inner">
+			<span class="large">Cable 1 Length</span><br>
+			<input type="number" name="cable-length-1" class="centered" min="0" value="1">
+		</div>
+		<div id="length-div-2" class="boxed-content-inner">
+			<span class="large">Cable 2 Length</span><br>
+			<input type="number" name="cable-length-2" class="centered" min="0" value="1">
+		</div>
+		<div id="length-div-3" class="boxed-content-inner">
+			<span class="large">Cable 3 Length</span><br>
+			<input type="number" name="cable-length-3" class="centered" min="0" value="1">
+		</div>
+		<div id="length-div-4" class="boxed-content-inner">
+			<span class="large">Cable 4 Length</span><br>
+			<input type="number" name="cable-length-4" class="centered" min="0" value="1">
+		</div>
+	</div>
+	<div id="template-cable-search" class="hide">
 		<h2 class="centered">Search for a Cable</h2>
 		<?php echo $num_search; ?>
 		<h3>OR</h3>
@@ -64,13 +82,13 @@
 			<?php } ?>
 			</select>
 		</div>
-		<div class="boxed-content-inner">
+		<div name="cable-length-div" class="boxed-content-inner">
 			<span class="large">Cable Length</span><br>
-			<input type="number" name="qty" class="centered" min="0" value="1">
+			<input type="number" name="cable-length" class="centered" min="0" value="1">
 		</div>
 		<button type="button" class="button">Next</button>
 	</div>
-	<div id="ferrule-search">
+	<div id="template-ferrule-search" class="hide">
 		<h2 class="centered">Search for a Ferrule</h2>
 		<?php echo $num_search; ?>
 		<div class="boxed-content-inner">
@@ -98,7 +116,7 @@
 		</div>
 		<button type="button" class="button">Next</button>
 	</div>
-	<div id="clamp-search">
+	<div id="template-clamp-search" class="hide">
 		<h2 class="centered">Search for a Clamp</h2>
 		<?php echo $num_search; ?>
 		<div class="boxed-content-inner">
