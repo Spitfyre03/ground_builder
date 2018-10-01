@@ -33,27 +33,28 @@
 			<br>
 			<input type="number" class="centered" min="0" value="1">
 		</div><br>
-		<button type="button" class="button" onclick="createCable()">Create Cable</button>
+		<button type="button" class="button" onclick="setupCable(this.parentElement)">Create Cable</button>
 	</div>
 	<?php $num_search = '<div class="boxed-content-inner"><span class="large">Search by Manufacturer\'s Part Number</span><br><input name="p-num"></div>'; ?>
-	<?php $back = '<button type="button" class="button" onclick="back(this.parentElement)">Back</button>'; ?>
-	<?php $next = '<button type="button" class="button fright" onclick="next(this.parentElement)">Next</button>'; ?>
+	<?php $search = '<button type="button" class="button" onclick="">Search</button>'; ?>
+	<?php $next = '<button type="button" class="button fright" onclick="next(this.parentElement)" disabled>Next</button>'; ?>
+	<?php $back = '<button type="button" class="button fright" onclick="back(this.parentElement)">Back</button>'; ?>
 	<div id="cluster-lengths">
 		<div id="length-div-1" class="boxed-content-inner">
 			<span class="large">Cable 1 Length</span><br>
-			<input type="number" name="cable-length-1" class="centered" min="0" value="1">
+			<input type="number" name="cable-length-1" class="centered" min="0" value="1" required>
 		</div>
 		<div id="length-div-2" class="boxed-content-inner">
 			<span class="large">Cable 2 Length</span><br>
-			<input type="number" name="cable-length-2" class="centered" min="0" value="1">
+			<input type="number" name="cable-length-2" class="centered" min="0" value="1" required>
 		</div>
 		<div id="length-div-3" class="boxed-content-inner">
 			<span class="large">Cable 3 Length</span><br>
-			<input type="number" name="cable-length-3" class="centered" min="0" value="1">
+			<input type="number" name="cable-length-3" class="centered" min="0" value="1" required>
 		</div>
 		<div id="length-div-4" class="boxed-content-inner">
 			<span class="large">Cable 4 Length</span><br>
-			<input type="number" name="cable-length-4" class="centered" min="0" value="1">
+			<input type="number" name="cable-length-4" class="centered" min="0" value="1" required>
 		</div>
 	</div>
 	<div id="template-cable-search" class="hide">
@@ -88,8 +89,9 @@
 			<span class="large">Cable Length</span><br>
 			<input type="number" name="cable-length" class="centered" min="0" value="1">
 		</div>
-		<?php echo $back; ?>
+		<?php echo $search; ?>
 		<?php echo $next; ?>
+		<?php echo $back; ?>
 	</div>
 	<div id="template-ferrule-search" class="hide">
 		<h2 class="centered">Search for a Ferrule</h2>
@@ -117,8 +119,9 @@
 			<?php } ?>
 			</select>
 		</div>
-		<?php echo $back; ?>
+		<?php echo $search; ?>
 		<?php echo $next; ?>
+		<?php echo $back; ?>
 	</div>
 	<div id="template-clamp-search" class="hide">
 		<h2 class="centered">Search for a Clamp</h2>
@@ -147,8 +150,9 @@
 			<?php } ?>
 			</select>
 		</div>
-		<?php echo $back; ?>
+		<?php echo $search; ?>
 		<?php echo $next; ?>
+		<?php echo $back; ?>
 	</div>
 	<div id="template-cable-review" class="hide"></div>
 </div>
