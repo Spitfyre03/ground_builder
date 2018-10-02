@@ -38,8 +38,13 @@ function addCable() {
 function setupCable(container) {
     var type = container.querySelector("select").value;
     createCableTree(type);
+    var parent = container.parentElement;
+    if (parent.children.length > 1) {
+        parent.innerHTML = '';
+        parent.appendChild(container);
+    }
     setupCableForm(type).forEach(function(child) {
-        container.parentElement.appendChild(child);
+        parent.appendChild(child);
     });
     next(container);
 }
