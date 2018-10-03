@@ -63,31 +63,31 @@
 		<h3>OR</h3>
 		<div class="boxed-content-inner">
 			<span class="large">Cable Gauge</span><br>
-			<select class="input">
-			<?php foreach ($gauges as $g) { ?>
-				<option value="<?php echo $g ?>"><?php echo $g ?></option>
+			<select id="gauge" class="input">
+			<?php foreach ($gauges as $row) { ?>
+				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
 			</select>
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">Jacket Color</span><br>
-			<select class="input">
-			<?php foreach ($colors as $c) { ?>
-				<option value="<?php echo $c ?>"><?php echo $c ?></option>
+			<select id="color" class="input">
+			<?php foreach ($colors as $row) { ?>
+				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
 			</select>
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">KV Rating</span><br>
-			<select class="input">
-			<?php foreach ($kvs as $k) { ?>
-				<option value="<?php echo $k ?>"><?php echo $k ?></option>
+			<select id="kv" class="input">
+			<?php foreach ($kvs as $row) { ?>
+				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
 			</select>
 		</div>
-		<div name="cable-length-div" class="boxed-content-inner">
+		<div id="cable-length-div" class="boxed-content-inner">
 			<span class="large">Cable Length</span><br>
-			<input type="number" name="cable-length" class="centered" min="0" value="1">
+			<input type="number" id="length" name="cable-length" class="centered" min="1" value="1">
 		</div>
 		<?php echo $search; ?>
 		<?php echo $next; ?>
@@ -99,23 +99,23 @@
 		<div class="boxed-content-inner">
 			<span class="large">Connection Type</span><br>
 			<select class="input">
-			<?php foreach ($connections as $c) { ?>
-				<option value="<?php echo $c ?>"><?php echo $c ?></option>
+			<?php foreach ($connections as $row) { ?>
+				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
 			</select>
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">Shrouding</span><br>
 			<select class="input">
-				<option value="Shrouded">Shrouded</option>
-				<option value="Unshrouded">Unshrouded</option>
+				<option value="21">Unshrouded</option>
+				<option value="22">Shrouded</option>
 			</select>
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">Material</span><br>
 			<select class="input">
-			<?php foreach ($ferr_mat as $m) { ?>
-				<option value="<?php echo $m; ?>"><?php echo $m; ?></option>
+			<?php foreach ($ferr_mat as $row) { ?>
+				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
 			</select>
 		</div>
@@ -129,24 +129,24 @@
 		<div class="boxed-content-inner">
 			<span class="large">Connection Type</span><br>
 			<select class="input">
-			<?php foreach ($connections as $c) { ?>
-				<option value="<?php echo $c ?>"><?php echo $c ?></option>
+			<?php foreach ($connections as $row) { ?>
+				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
 			</select>
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">Clamp Style</span><br>
 			<select class="input">
-			<?php foreach ($styles as $s) { ?>
-				<option value="<?php echo $s ?>"><?php echo $s ?></option>
+			<?php foreach ($styles as $row) { ?>
+				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
 			</select>
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">KV Rating</span><br>
 			<select class="input">
-			<?php foreach ($kvs as $k) { ?>
-				<option value="<?php echo $k ?>"><?php echo $k ?></option>
+			<?php foreach ($kvs as $row) { ?>
+				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
 			</select>
 		</div>
