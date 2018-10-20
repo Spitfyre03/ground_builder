@@ -167,3 +167,9 @@ function back(e) {
     e.previousElementSibling.classList.remove("hide");
     e.classList.add("hide");
 }
+
+function empty(element) {
+    if (element && element.innerHTML) {
+        element.innerHTML = '';
+    }
+}
