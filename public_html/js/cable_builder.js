@@ -159,13 +159,27 @@ function setupCableForm(type) {
 }
 
 function next(e) {
-    e.nextElementSibling.classList.remove("hide");
-    e.classList.add("hide");
+    if (e && e.nextElementSibling) {
+        var ul = document.getElementById("inventory-catalog");
+        if (ul) {
+            empty(ul);
+            ul.parentElement.classList.add('hide');
+        }
+        e.nextElementSibling.classList.remove("hide");
+        e.classList.add("hide");
+    }
 }
 
 function back(e) {
-    e.previousElementSibling.classList.remove("hide");
-    e.classList.add("hide");
+    if (e && e.previousElementSibling) {
+        var ul = document.getElementById("inventory-catalog");
+        if (ul) {
+            empty(ul);
+            ul.parentElement.classList.add('hide');
+        }
+        e.previousElementSibling.classList.remove("hide");
+        e.classList.add("hide");
+    }
 }
 
 function empty(element) {
