@@ -101,9 +101,9 @@ function createCableTree(type) {
                     }
                     ferr.appendChild(cabList);
                     ferrList.appendChild(ferr);
-                    cable.appendChild(ferrList);
                     num++;
                 }
+                cable.appendChild(ferrList);
                 id = String.fromCharCode(id.charCodeAt() + 1);
                 tree.appendChild(cable);
             }
