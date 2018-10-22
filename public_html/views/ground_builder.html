@@ -6,7 +6,7 @@
 	<tbody id="quote-items-body" class="no_border">
 		<tr id="table-cable-adder">
 			<td class="center">
-				<button class="button" onclick="initSetup()">Add Cable</button>
+				<button class="button" onclick="startCable()">Add Cable</button>
 			</td>
 		</tr>
 	</tbody>
@@ -36,7 +36,7 @@
 		<button type="button" class="button" onclick="setupCable(this.parentElement)">Create Cable</button>
 	</div>
 	<?php $num_search = '<div class="boxed-content-inner"><span class="large">Search by Manufacturer\'s Part Number</span><br><input name="p-num"></div>'; ?>
-	<?php $search = '<button type="button" class="button" onclick="">Search</button>'; ?>
+	<?php $search = '<button type="button" class="button" onclick="searchItemMatches(this.parentElement)">Search</button>'; ?>
 	<?php $next = '<button type="button" class="button fright" onclick="next(this.parentElement)" disabled>Next</button>'; ?>
 	<?php $back = '<button type="button" class="button fright" onclick="back(this.parentElement)">Back</button>'; ?>
 	<div id="cluster-lengths">
