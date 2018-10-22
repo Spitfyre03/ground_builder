@@ -24,7 +24,7 @@
 			<span class="large">Select the type of cable this will be</span><br>
 			<select>
 			<?php foreach ($cable_types as $ind=>$type) { ?>
-				<option value="<?php echo $ind++; ?>"><?php echo $type ?></option>
+				<option value="<?php echo ++$ind; ?>"><?php echo $type ?></option>
 			<?php } ?>
 			</select>
 		</div><br>
