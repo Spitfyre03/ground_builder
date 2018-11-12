@@ -22,7 +22,7 @@
 		<h2 class="centered">Basic Cable Info</h2>
 		<div>
 			<span class="large">Select the type of cable this will be</span><br>
-			<select>
+			<select class="input">
 			<?php foreach ($cable_types as $ind=>$type) { ?>
 				<option value="<?php echo ++$ind; ?>"><?php echo $type ?></option>
 			<?php } ?>
@@ -39,7 +39,7 @@
 	<?php $search = '<button type="button" class="button" onclick="searchItemMatches(this.parentElement)">Search</button>'; ?>
 	<?php $next = '<button type="button" class="button fright" onclick="next(this.parentElement)" disabled>Next</button>'; ?>
 	<?php $back = '<button type="button" class="button fright" onclick="back(this.parentElement)">Back</button>'; ?>
-	<div id="cluster-lengths">
+	<div id="template-cluster-lengths">
 		<div id="length-div-1" class="boxed-content-inner">
 			<span class="large">Tail Length</span><br>
 			<input type="number" name="cable-length-1" class="centered" min="1" value="1" required>
@@ -59,8 +59,6 @@
 	</div>
 	<div id="template-cable-search" class="hide">
 		<h2 class="centered">Search for a Cable</h2>
-		<?php echo $num_search; ?>
-		<h3>OR</h3>
 		<div class="boxed-content-inner">
 			<span class="large">Cable Gauge</span><br>
 			<select id="gauge" class="input">
@@ -85,17 +83,19 @@
 			<?php } ?>
 			</select>
 		</div>
-		<div id="cable-length-div" class="boxed-content-inner">
-			<span class="large">Cable Length</span><br>
-			<input type="number" id="length" name="cable-length" class="centered" min="1" value="1">
+		<div id="template-cable-length">
+			<div class="boxed-content-inner">
+				<span class="large">Cable Length</span><br>
+				<input type="number" name="cable[length][]" class="centered" min="1" value="1">
+			</div>
 		</div>
+		<input type="hidden" name="item_type" value="0">
 		<?php echo $search; ?>
 		<?php echo $next; ?>
 		<?php echo $back; ?>
 	</div>
 	<div id="template-ferrule-search" class="hide">
 		<h2 class="centered">Search for a Ferrule</h2>
-		<?php echo $num_search; ?>
 		<div class="boxed-content-inner">
 			<span class="large">Connection Type</span><br>
 			<select class="input">
@@ -119,13 +119,13 @@
 			<?php } ?>
 			</select>
 		</div>
+		<input type="hidden" name="item_type" value="1">
 		<?php echo $search; ?>
 		<?php echo $next; ?>
 		<?php echo $back; ?>
 	</div>
 	<div id="template-clamp-search" class="hide">
 		<h2 class="centered">Search for a Clamp</h2>
-		<?php echo $num_search; ?>
 		<div class="boxed-content-inner">
 			<span class="large">Connection Type</span><br>
 			<select class="input">
@@ -150,6 +150,7 @@
 			<?php } ?>
 			</select>
 		</div>
+		<input type="hidden" name="item_type" value="2">
 		<?php echo $search; ?>
 		<?php echo $next; ?>
 		<?php echo $back; ?>
@@ -158,7 +159,9 @@
 </div>
 <form id="cables-form" class="fright two-thirds-width hide">
 	<div class="box">
-		<div id="form-panel" class="inner"></div>
+		<div id="form-panel" class="inner">
+			<input type="hidden" id="cable_type" name="cable_type">
+		</div>
 		<div id="search-table" class="inner hide">
 			<ul id="inventory-catalog"></ul>
 		</div>

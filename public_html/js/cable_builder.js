@@ -49,18 +49,21 @@ function addCable() {
 }
 
 function setupCable(container) {
-    if (container) {
-        var type = container.querySelector("select").value;
+    if (container && container.querySelector("select")) {
+        var type = +container.querySelector("select").value;
         createCableTree(type);
         var parent = container.parentElement;
         if (parent.children.length > 1) {
             parent.innerHTML = '';
             parent.appendChild(container);
         }
-        setupCableForm(type).forEach(function(child) {
-            parent.appendChild(child);
-        });
-        next(container);
+        var panes = setupCableForm(type);
+        if (panes) {
+            panes.forEach(function(child) {
+                parent.appendChild(child);
+            });
+            next(container);
+        }
     }
 }
 
@@ -112,50 +115,71 @@ function createCableTree(type) {
     }
 }
 
+// TODO go back through and validate truthiness of these elements
 function setupCableForm(type) {
-    var isCluster = type > 1;
-    var arr = isCluster ? new Array(10) : new Array(5);
-    if (isCluster) {
-        // Cable, modified for cluster style
-        var cable = cloneTemplate(document.getElementById("template-cable-search"));
-        var quant = cable.children.namedItem("cable-length-div");
-        var button = quant.nextElementSibling;
-        Array.from(document.getElementById("cluster-lengths").children).forEach(function(e){
-            button.insertAdjacentElement("beforebegin",e);
-        });
-        quant.remove();
-        arr.push(cable);
-        // Block Ferrule
-        var blockFerr = cloneTemplate(document.getElementById("template-ferrule-search"));
-        blockFerr.firstElementChild.remove();
-        var title = document.createElement("h2");
-        title.classList.add("centered");
-        title.innerText = "Block Ferrules";
-        blockFerr.insertAdjacentElement("afterbegin",title);
-        blockFerr.id = blockFerr.id.concat("-block");
-        arr.push(blockFerr);
-        // Ferrules 1-4, Clamps 1-4 in between
-        for (var i = 1; i <= 4; i++) {
-            var ferr = cloneTemplate(document.getElementById("template-ferrule-search"));
-            ferr.id = ferr.id.concat("-" + i);
-            arr.push(ferr);
-            var clamp = cloneTemplate(document.getElementById("template-clamp-search"));
-            clamp.id = clamp.id.concat("-" + i);
-            arr.push(clamp);
+    var cableTemp = document.getElementById("template-cable-search");
+    var ferrTemp = document.getElementById("template-ferrule-search");
+    var clampTemp = document.getElementById("template-clamp-search");
+    var cableType = document.getElementById("cable_type");
+    if (cableTemp && ferrTemp && clampTemp && cableType) {
+        var isCluster = type > 2;
+        var arr = isCluster ? new Array(10) : new Array(5);
+        cableType.setAttribute("value", type);
+
+        var singleLengthTemplate = document.getElementById("template-cable-length");
+        var clusterLengthsTemplate = null;
+        if (isCluster && (clusterLengthsTemplate = document.getElementById("template-cluster-lengths")) && clusterLengthsTemplate.children) {// assignment intended
+            // Cable, modified for cluster style
+            console.log("Creating cluster panes");
+            if (!singleLengthTemplate) {
+                return false;
+            }
+            var cable = cloneTemplate(cableTemp);
+            var singleLengthDiv = cable.children.namedItem(singleLengthTemplate.id);
+            var clusterLengthsDiv = clusterLengthsTemplate.cloneNode(true);
+            clusterLengthsDiv.setAttribute("id", clusterLengthsDiv.id.replace("template-", "").trim());
+            singleLengthDiv.insertAdjacentElement("afterend", clusterLengthsDiv);
+            singleLengthDiv.remove();
+            
+            arr.push(cable);
+            // Block Ferrule
+            var blockFerr = cloneTemplate(ferrTemp);
+            blockFerr.firstElementChild.remove();
+            var title = document.createElement("h2");
+            title.classList.add("centered");
+            title.innerText = "Block Ferrules";
+            blockFerr.insertAdjacentElement("afterbegin",title);
+            blockFerr.id = blockFerr.id.concat("-block");
+            arr.push(blockFerr);
+            // Ferrules 1-4, Clamps 1-4 in between
+            for (var i = 1; i <= 4; i++) {
+                var ferr = cloneTemplate(ferrTemp);
+                ferr.id = ferr.id.concat("-" + i);
+                arr.push(ferr);
+                var clamp = cloneTemplate(clampTemp);
+                clamp.id = clamp.id.concat("-" + i);
+                arr.push(clamp);
+            }
+        } else {
+            var cable = cloneTemplate(cableTemp);
+            if (!singleLengthTemplate) {
+                return false;
+            }
+            var singleLengthDiv = cable.children.namedItem(singleLengthTemplate.id);
+            singleLengthDiv.setAttribute("id", singleLengthDiv.id.replace("template-", "").trim());
+            arr.push(cable);
+            for (var i = 1; i <= 2; i++) {
+                var ferr = cloneTemplate(ferrTemp);
+                ferr.id = ferr.id.concat('-' + i);
+                arr.push(ferr);
+                var clamp = cloneTemplate(clampTemp);
+                clamp.id = clamp.id.concat('-' + i);
+                arr.push(clamp);
+            }
         }
-    } else {
-        var cable = cloneTemplate(document.getElementById("template-cable-search"));
-        arr.push(cable);
-        for (var i = 1; i <= 2; i++) {
-            var ferr = cloneTemplate(document.getElementById("template-ferrule-search"));
-            ferr.id = ferr.id.concat('-' + i);
-            arr.push(ferr);
-            var clamp = cloneTemplate(document.getElementById("template-clamp-search"));
-            clamp.id = clamp.id.concat('-' + i);
-            arr.push(clamp);
-        }
+        return arr;
     }
-    return arr;
+    return false;
 }
 
 function next(e) {
