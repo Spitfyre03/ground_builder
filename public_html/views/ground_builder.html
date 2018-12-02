@@ -42,26 +42,26 @@
 	<div id="template-cluster-lengths">
 		<div id="length-div-1" class="boxed-content-inner">
 			<span class="large">Tail Length</span><br>
-			<input type="number" name="cable-length-1" class="centered" min="1" value="1" required>
+			<input type="number" name="cable[length][]" class="centered" min="1" value="1" required>
 		</div>
 		<div id="length-div-2" class="boxed-content-inner">
 			<span class="large">Phase 1 Length</span><br>
-			<input type="number" name="cable-length-2" class="centered" min="1" value="1" required>
+			<input type="number" name="cable[length][]" class="centered" min="1" value="1" required>
 		</div>
 		<div id="length-div-3" class="boxed-content-inner">
 			<span class="large">Phase 2 Length</span><br>
-			<input type="number" name="cable-length-3" class="centered" min="1" value="1" required>
+			<input type="number" name="cable[length][]" class="centered" min="1" value="1" required>
 		</div>
 		<div id="length-div-4" class="boxed-content-inner">
 			<span class="large">Phase 3 Length</span><br>
-			<input type="number" name="cable-length-4" class="centered" min="1" value="1" required>
+			<input type="number" name="cable[length][]" class="centered" min="1" value="1" required>
 		</div>
 	</div>
 	<div id="template-cable-search" class="hide">
 		<h2 class="centered">Search for a Cable</h2>
 		<div class="boxed-content-inner">
 			<span class="large">Cable Gauge</span><br>
-			<select id="gauge" class="input">
+			<select name="cable[gauge]" class="input">
 			<?php foreach ($gauges as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -69,7 +69,7 @@
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">Jacket Color</span><br>
-			<select id="color" class="input">
+			<select name="cable[color]" class="input">
 			<?php foreach ($colors as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -77,7 +77,7 @@
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">KV Rating</span><br>
-			<select id="kv" class="input">
+			<select name="cable[kv]" class="input">
 			<?php foreach ($kvs as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -98,7 +98,7 @@
 		<h2 class="centered">Search for a Ferrule</h2>
 		<div class="boxed-content-inner">
 			<span class="large">Connection Type</span><br>
-			<select class="input">
+			<select name="ferrule[connection]" class="input">
 			<?php foreach ($connections as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -106,14 +106,14 @@
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">Shrouding</span><br>
-			<select class="input">
+			<select name="ferrule[shroud]" class="input">
 				<option value="21">Unshrouded</option>
 				<option value="22">Shrouded</option>
 			</select>
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">Material</span><br>
-			<select class="input">
+			<select name="ferrule[material]" class="input">
 			<?php foreach ($ferr_mat as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -128,7 +128,7 @@
 		<h2 class="centered">Search for a Clamp</h2>
 		<div class="boxed-content-inner">
 			<span class="large">Connection Type</span><br>
-			<select class="input">
+			<select name="clamp[connection]" class="input">
 			<?php foreach ($connections as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -136,7 +136,7 @@
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">Clamp Style</span><br>
-			<select class="input">
+			<select name="clamp[style]" class="input">
 			<?php foreach ($styles as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -144,7 +144,7 @@
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">KV Rating</span><br>
-			<select class="input">
+			<select name="clamp[kv]" class="input">
 			<?php foreach ($kvs as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -160,7 +160,7 @@
 <form id="cables-form" class="fright two-thirds-width hide">
 	<div class="box">
 		<div id="form-panel" class="inner">
-			<input type="hidden" id="cable_type" name="cable_type">
+			<input type="hidden" id="cable_type" name="cable[type]">
 		</div>
 		<div id="search-table" class="inner hide">
 			<ul id="inventory-catalog"></ul>
