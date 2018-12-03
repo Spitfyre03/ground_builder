@@ -25,12 +25,24 @@ function fetch_component_details(\mysqli $dbc, $tags, $quantity = 1) {
     return $ret;
 }
 
-function fetch_matching_cables(\mysqli $dbc, $options) {
-    $required = array('type', 'gauge', 'color', 'kv', 'length');
-    $cable = filter_input(INPUT_POST, 'cable', FILTER_VALIDATE_INT, $options);
-    if (empty($cable) || !empty(array_diff($required, array_keys($cable)))) {
-        throw new \RuntimeException("Posted ground structure is invalid");
+function fetchRequiredInputs($var_name, $required_keys, $options) {
+    if (empty($options) || !is_array($options)) {
+        $options = array(
+            "options" => array(
+                "min_range" => 1
+            ),
+            "flags" => FILTER_REQUIRE_ARRAY
+        );
     }
+    $ret = filterInput(INPUT_POST, $var_name, FILTER_VALIDATE_INT, $options);
+    if (empty($ret) || !empty(array_diff($required_keys, array_keys($ret)))) {
+        throw new \RuntimeException("Posted $var_name structure invalid");
+    }
+    return $ret;
+}
+
+function fetch_matching_cables(\mysqli $dbc, $options) {
+    $cable = fetchRequiredInputs('cable', array('type', 'gauge', 'color', 'kv', 'length'));
     if (($cable['type'] & 2) xor ($cable['kv'] !== 14)) {
         throw new \RuntimeException("Cable type and KV rating must be a valid combination");
     }
@@ -40,20 +52,11 @@ function fetch_matching_cables(\mysqli $dbc, $options) {
 }
 
 function fetch_matching_ferrules(\mysqli $dbc, $options) {
-    $required = array('connection', 'shroud', 'material');
-    $ferrule = filter_input(INPUT_POST,'ferrule', FILTER_VALIDATE_INT, $options);
-    if (empty($ferrule) || !empty(array_diff($required, array_keys($ferrule)))) {
-        throw new \RuntimeException("Posted ferrule structure is invalid");
-    }
-    return fetch_component_details($dbc, array_values($ferrule), 1);
+    return fetch_component_details($dbc, array_values(fetchRequiredInputs('ferrule', array('connection', 'shroud', 'material'))), 1);
 }
 
 function fetch_matching_clamps(\mysqli $dbc, $options) {
-    $required = array('connection', 'style', 'kv');
-    $clamp = filter_input(INPUT_POST, 'clamp', FILTER_VALIDATE_INPUT, $options);
-    if (empty($clamp) || !empty(array_diff($required, array_keys($clamp)))) {
-        throw new \RuntimeException("Posted clamp structure is invalid");
-    }
+    $clamp = fetchRequiredInputs('clamp', array('connection', 'style', 'kv'));
     if (($clamp['style'] === 28) xor ($clamp['connection'] === 45)) {
         throw new \RuntimeException("Clamp style and connection type must be a valid combination");
     }
@@ -65,23 +68,19 @@ try {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		throw new \RuntimeException("Expected request via POST; received via " . $_SERVER['REQUEST_METHOD']);
     }
-    if (($type = filter_input(INPUT_POST, "item_type", FILTER_VALIDATE_INT)) || $type === 0) {// I think we can do better than this
-        $options = array(
-            "options" => array(
-                "min_range" => 1
-            ),
-            "flags" => FILTER_REQUIRE_ARRAY
-        );
-        switch ($type % 3) {
-            case 0:
+    if (($type = filter_input(INPUT_POST, "item_type", FILTER_VALIDATE_INT))) {
+        switch ($type) {
+            case 1:
                 $details = fetch_matching_cables($dbc, $options);
                 break;
-            case 1:
+            case 2:
                 $details = fetch_matching_ferrules($dbc, $options);
                 break;
-            case 2:
+            case 3:
                 $details = fetch_matching_clamps($dbc, $options);
                 break;
+            default:
+                throw new \RuntimeException("POST item type is an invalid value");
         }
     } else {
         throw new \RuntimeException("Post missing required item_type argument");
