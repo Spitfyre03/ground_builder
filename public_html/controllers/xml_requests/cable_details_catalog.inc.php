@@ -43,9 +43,6 @@ function fetchRequiredInputs($var_name, $required_keys, $options) {
 
 function fetch_matching_cables(\mysqli $dbc, $options) {
     $cable = fetchRequiredInputs('cable', array('type', 'gauge', 'color', 'kv', 'length'));
-    if (($cable['type'] & 2) xor ($cable['kv'] !== 14)) {
-        throw new \RuntimeException("Cable type and KV rating must be a valid combination");
-    }
     $arr = array($cable['type'], $cable['gauge'], $cable['color'], $cable['kv']);
     $quantity = array_sum($cable['length']);
     return fetch_component_details($dbc, $arr, $quantity);
@@ -57,9 +54,6 @@ function fetch_matching_ferrules(\mysqli $dbc, $options) {
 
 function fetch_matching_clamps(\mysqli $dbc, $options) {
     $clamp = fetchRequiredInputs('clamp', array('connection', 'style', 'kv'));
-    if (($clamp['style'] === 28) xor ($clamp['connection'] === 45)) {
-        throw new \RuntimeException("Clamp style and connection type must be a valid combination");
-    }
     return fetch_component_details($dbc, array_values($clamp), 1);
 }
 
