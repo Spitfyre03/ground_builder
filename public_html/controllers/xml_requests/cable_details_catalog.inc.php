@@ -25,7 +25,7 @@ function fetch_component_details(\mysqli $dbc, $tags, $quantity = 1) {
     return $ret;
 }
 
-function fetchRequiredInputs($var_name, $required_keys, $options) {
+function fetchRequiredInputs($var_name, $required_keys, $options=array()) {
     if (empty($options) || !is_array($options)) {
         $options = array(
             "options" => array(
@@ -34,27 +34,26 @@ function fetchRequiredInputs($var_name, $required_keys, $options) {
             "flags" => FILTER_REQUIRE_ARRAY
         );
     }
-    $ret = filterInput(INPUT_POST, $var_name, FILTER_VALIDATE_INT, $options);
+    $ret = filter_input(INPUT_POST, $var_name, FILTER_VALIDATE_INT, $options);
     if (empty($ret) || !empty(array_diff($required_keys, array_keys($ret)))) {
         throw new \RuntimeException("Posted $var_name structure invalid");
     }
     return $ret;
 }
 
-function fetch_matching_cables(\mysqli $dbc, $options) {
+function fetch_matching_cables(\mysqli $dbc) {
     $cable = fetchRequiredInputs('cable', array('type', 'gauge', 'color', 'kv', 'length'));
     $arr = array($cable['type'], $cable['gauge'], $cable['color'], $cable['kv']);
     $quantity = array_sum($cable['length']);
     return fetch_component_details($dbc, $arr, $quantity);
 }
 
-function fetch_matching_ferrules(\mysqli $dbc, $options) {
+function fetch_matching_ferrules(\mysqli $dbc) {
     return fetch_component_details($dbc, array_values(fetchRequiredInputs('ferrule', array('connection', 'shroud', 'material'))), 1);
 }
 
-function fetch_matching_clamps(\mysqli $dbc, $options) {
-    $clamp = fetchRequiredInputs('clamp', array('connection', 'style', 'kv'));
-    return fetch_component_details($dbc, array_values($clamp), 1);
+function fetch_matching_clamps(\mysqli $dbc) {
+    return fetch_component_details($dbc, array_values(fetchRequiredInputs('clamp', array('connection', 'style', 'kv'))), 1);
 }
 
 $details = array();
@@ -65,13 +64,13 @@ try {
     if (($type = filter_input(INPUT_POST, "item_type", FILTER_VALIDATE_INT))) {
         switch ($type) {
             case 1:
-                $details = fetch_matching_cables($dbc, $options);
+                $details = fetch_matching_cables($dbc);
                 break;
             case 2:
-                $details = fetch_matching_ferrules($dbc, $options);
+                $details = fetch_matching_ferrules($dbc);
                 break;
             case 3:
-                $details = fetch_matching_clamps($dbc, $options);
+                $details = fetch_matching_clamps($dbc);
                 break;
             default:
                 throw new \RuntimeException("POST item type is an invalid value");
