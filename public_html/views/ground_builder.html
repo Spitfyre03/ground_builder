@@ -1,12 +1,12 @@
 <span id="js_enable"><strong>Note: <em>JavaScript</em> is required for this page to function properly. Please enable scripts to continue.</strong><br><br></span>
-<table id="table-quote-display" class="fleft third-width">
+<table id="table-quote_display" class="fleft third-width">
 	<thead>
 		<th class="large left row-header"><h4>Your Cables</h4></th>
 	</thead>
-	<tbody id="quote-items-body" class="no_border">
-		<tr id="table-cable-adder">
+	<tbody id="table-body-quote_items" class="no_border">
+		<tr id="table-cable_adder">
 			<td class="center">
-				<button class="button" onclick="startCable()">Add Cable</button>
+				<button id="button-add_cable" type="button" class="button" onclick="startCable()">Add Cable</button>
 			</td>
 		</tr>
 	</tbody>
@@ -18,11 +18,11 @@
 	</tfoot>
 </table>
 <div class="hide">
-	<div id="template-cable-setup">
+	<div id="template-cable_setup">
 		<h2 class="centered">Basic Cable Info</h2>
 		<div>
 			<span class="large">Select the type of cable this will be</span><br>
-			<select class="input">
+			<select class="input" id="template-select-cable_type" name="cable[type]">
 			<?php foreach ($cable_types as $ind=>$type) { ?>
 				<option value="<?php echo ++$ind; ?>"><?php echo $type ?></option>
 			<?php } ?>
@@ -31,33 +31,33 @@
 		<div>
 			<span class="large">Enter the number of identical cables needed</span>
 			<br>
-			<input type="number" class="centered" min="1" value="1">
+			<input type="number" id="template-cable_multiplier" name="multiplier" class="centered" min="1" value="1">
 		</div><br>
-		<button type="button" class="button" onclick="setupCable(this.parentElement)">Create Cable</button>
+		<button id="button-init_cable" type="button" class="button" onclick="setupCable()">Create Cable</button>
 	</div>
 	<?php $num_search = '<div class="boxed-content-inner"><span class="large">Search by Manufacturer\'s Part Number</span><br><input name="p-num"></div>'; ?>
 	<?php $search = '<button type="button" class="button" onclick="searchItemMatches(this.parentElement)">Search</button>'; ?>
 	<?php $next = '<button type="button" class="button fright" onclick="next(this.parentElement)" disabled>Next</button>'; ?>
 	<?php $back = '<button type="button" class="button fright" onclick="back(this.parentElement)">Back</button>'; ?>
-	<div id="template-cluster-lengths">
-		<div id="length-div-1" class="boxed-content-inner">
+	<div id="template-cluster_lengths">
+		<div id="template-length_div_1" class="boxed-content-inner">
 			<span class="large">Tail Length</span><br>
 			<input type="number" name="cable[length][]" class="centered" min="1" value="1" required>
 		</div>
-		<div id="length-div-2" class="boxed-content-inner">
+		<div id="template-length_div_2" class="boxed-content-inner">
 			<span class="large">Phase 1 Length</span><br>
 			<input type="number" name="cable[length][]" class="centered" min="1" value="1" required>
 		</div>
-		<div id="length-div-3" class="boxed-content-inner">
+		<div id="template-length_div_3" class="boxed-content-inner">
 			<span class="large">Phase 2 Length</span><br>
 			<input type="number" name="cable[length][]" class="centered" min="1" value="1" required>
 		</div>
-		<div id="length-div-4" class="boxed-content-inner">
+		<div id="template-length_div_4" class="boxed-content-inner">
 			<span class="large">Phase 3 Length</span><br>
 			<input type="number" name="cable[length][]" class="centered" min="1" value="1" required>
 		</div>
 	</div>
-	<div id="template-cable-search" class="hide">
+	<div id="template-cable_search" class="hide">
 		<h2 class="centered">Search for a Cable</h2>
 		<div class="boxed-content-inner">
 			<span class="large">Cable Gauge</span><br>
@@ -77,28 +77,26 @@
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">KV Rating</span><br>
-			<select name="cable[kv]" class="input">
+			<select id="template-select-jacket_kv" name="cable[kv]" class="input">
 			<?php foreach ($kvs as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
 			</select>
 		</div>
-		<div id="template-cable-length">
-			<div class="boxed-content-inner">
-				<span class="large">Cable Length</span><br>
-				<input type="number" name="cable[length][]" class="centered" min="1" value="1">
-			</div>
+		<div id="template-cable_length" class="boxed-content-inner">
+			<span class="large">Cable Length</span><br>
+			<input type="number" name="cable[length][]" class="centered" min="1" value="1">
 		</div>
 		<input type="hidden" name="item_type" value="1">
 		<?php echo $search; ?>
 		<?php echo $next; ?>
 		<?php echo $back; ?>
 	</div>
-	<div id="template-ferrule-search" class="hide">
+	<div id="template-ferrule_search" class="hide">
 		<h2 class="centered">Search for a Ferrule</h2>
 		<div class="boxed-content-inner">
 			<span class="large">Connection Type</span><br>
-			<select name="ferrule[connection]" class="input">
+			<select id="template-select-ferrule_connection" name="ferrule[connection]" class="input">
 			<?php foreach ($connections as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -124,11 +122,11 @@
 		<?php echo $next; ?>
 		<?php echo $back; ?>
 	</div>
-	<div id="template-clamp-search" class="hide">
+	<div id="template-clamp_search" class="hide">
 		<h2 class="centered">Search for a Clamp</h2>
 		<div class="boxed-content-inner">
 			<span class="large">Connection Type</span><br>
-			<select name="clamp[connection]" class="input">
+			<select id="template-select-clamp_connection" name="clamp[connection]" class="input">
 			<?php foreach ($connections as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -136,7 +134,7 @@
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">Clamp Style</span><br>
-			<select name="clamp[style]" class="input">
+			<select id="template-select-clamp_style" name="clamp[style]" class="input">
 			<?php foreach ($styles as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -144,7 +142,7 @@
 		</div>
 		<div class="boxed-content-inner">
 			<span class="large">KV Rating</span><br>
-			<select name="clamp[kv]" class="input">
+			<select id="template-select-clamp_kv" name="clamp[kv]" class="input">
 			<?php foreach ($kvs as $row) { ?>
 				<option value="<?php echo $row['id']; ?>"><?php echo $row['value']; ?></option>
 			<?php } ?>
@@ -155,15 +153,13 @@
 		<?php echo $next; ?>
 		<?php echo $back; ?>
 	</div>
-	<div id="template-cable-review" class="hide"></div>
+	<div id="template-cable_review" class="hide"></div>
 </div>
-<form id="cables-form" class="fright two-thirds-width hide">
+<form id="form-cable_builder" class="fright two-thirds-width hide">
 	<div class="box">
-		<div id="form-panel" class="inner">
-			<input type="hidden" id="cable_type" name="cable[type]">
-		</div>
-		<div id="search-table" class="inner hide">
-			<ul id="inventory-catalog"></ul>
+		<div id="form_panel" class="inner"></div>
+		<div id="search_table" class="inner hide">
+			<ul id="inventory_catalog"></ul>
 		</div>
 	</div>
 </form>

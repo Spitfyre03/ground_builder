@@ -1,23 +1,32 @@
 
 function cloneTemplate(element) {
-    var clone = null;
     if (element) {
-        clone = element.cloneNode(true);
-        clone.setAttribute("id", clone.id.replace("template-","").trim());
-        var tbody = document.getElementById("quote-items-body");
-        if (tbody) {
-            var index = tbody.children.length - 1;
-            clone.setAttribute("id", clone.id.concat("-" + index).trim());
-        }
+        var clone = element.cloneNode(true);
+        replaceTemplateIDs(clone);
+        return clone;
     }
-    return clone;
+    return false;
 }
 
+function replaceTemplateIDs(e) {
+    if (e.id) {
+        e.id = e.id.replace("template-", "");
+    }
+    var length = e.children.length;
+    if (length > 0) {
+        for (var i = 0; i < length; i++) {
+            replaceTemplateIDs(e.children[i]);
+        }
+    }
+}
+
+// TODO consolidate adding and setting up 
 function startCable() {
-    var template = document.getElementById("template-cable-setup");
-    var form = document.getElementById("cables-form");
-    var container;
-    if (addCable() && (container = document.getElementById("new-cable")) && template && form) {// assignment intended
+    var template = document.getElementById("template-cable_setup");
+    var form = document.getElementById("form-cable_builder");
+    var isAdded = addCable();
+    var container = document.getElementById("new_cable");
+    if (isAdded && container && template && form) {
         var clone = cloneTemplate(template);
         container.appendChild(clone);
         form.classList.remove("hide");
@@ -25,18 +34,18 @@ function startCable() {
 }
 
 function addCable() {
-    var div = document.getElementById("new-cable");
+    var div = document.getElementById("new_cable");
     if (div) {
         alert("You must complete the current cable first");
         return false;
     }
-    var body = document.getElementById("quote-items-body");
-    var panel = document.getElementById("form-panel");
-    var bRow = document.getElementById("table-cable-adder");
+    var body = document.getElementById("table-body-quote_items");
+    var panel = document.getElementById("form_panel");
+    var bRow = document.getElementById("table-cable_adder");
     if (body && panel && bRow) {
         var index = body.rows.length;
         var display = document.createElement("div");
-        display.id = "new-cable";
+        display.id = "new_cable";
         panel.appendChild(display);
         var cell = document.createElement("td");
         cell.innerHTML = "<h4>Cable " + index + "</h4>";
@@ -48,9 +57,11 @@ function addCable() {
     }
 }
 
-function setupCable(container) {
-    if (container && container.querySelector("select")) {
-        var type = +container.querySelector("select").value;
+function setupCable() {
+    var container = document.getElementById("cable_setup");
+    var type = document.getElementById("select-cable_type");
+    if (container && type && type.tagName === "SELECT") {
+        type = +type.value;
         createCableTree(type);
         var parent = container.parentElement;
         if (parent.children.length > 1) {
@@ -69,7 +80,7 @@ function setupCable(container) {
 
 /** Initiates a tree for displaying the cable in the review table */
 function createCableTree(type) {
-    var tableBody = document.getElementById("quote-items-body");
+    var tableBody = document.getElementById("table-body-quote_items");
     if (tableBody && tableBody.getElementsByTagName("tr")) {
         var index = tableBody.getElementsByTagName("tr").length - 1;
         var itemRow = tableBody.children[index - 1];
@@ -117,28 +128,22 @@ function createCableTree(type) {
 
 // TODO go back through and validate truthiness of these elements
 function setupCableForm(type) {
-    var cableTemp = document.getElementById("template-cable-search");
-    var ferrTemp = document.getElementById("template-ferrule-search");
-    var clampTemp = document.getElementById("template-clamp-search");
-    var cableType = document.getElementById("cable_type");
-    if (cableTemp && ferrTemp && clampTemp && cableType) {
+    var panesContainer = document.getElementById("new_cable");
+    var cableTemp = document.getElementById("template-cable_search");
+    var ferrTemp = document.getElementById("template-ferrule_search");
+    var clampTemp = document.getElementById("template-clamp_search");
+    if (panesContainer && cableTemp && ferrTemp && clampTemp) {
         var isCluster = type > 2;
-        var arr = isCluster ? new Array(10) : new Array(5);
-        cableType.setAttribute("value", type);
+        var isJumper = type % 2;
+        var arr = new Array(isCluster ? 10 : 5);
 
-        var singleLengthTemplate = document.getElementById("template-cable-length");
-        var clusterLengthsTemplate = null;
-        if (isCluster && (clusterLengthsTemplate = document.getElementById("template-cluster-lengths")) && clusterLengthsTemplate.children) {// assignment intended
+        var cable = cloneTemplate(cableTemp);
+        var clusterLengthsTemplate = document.getElementById("template-cluster_lengths");
+        if (isCluster && clusterLengthsTemplate && clusterLengthsTemplate.children) {
             // Cable, modified for cluster style
-            console.log("Creating cluster panes");
-            if (!singleLengthTemplate) {
-                return false;
-            }
-            var cable = cloneTemplate(cableTemp);
-            var singleLengthDiv = cable.children.namedItem(singleLengthTemplate.id);
-            var clusterLengthsDiv = clusterLengthsTemplate.cloneNode(true);
-            clusterLengthsDiv.setAttribute("id", clusterLengthsDiv.id.replace("template-", "").trim());
-            singleLengthDiv.insertAdjacentElement("afterend", clusterLengthsDiv);
+            var singleLengthDiv = cable.children.namedItem("cable_length");
+            var clusterLengthsDiv = cloneTemplate(clusterLengthsTemplate);
+            clusterLengthsDiv.appendAfter(singleLengthDiv);
             singleLengthDiv.remove();
             
             arr.push(cable);
@@ -161,12 +166,6 @@ function setupCableForm(type) {
                 arr.push(clamp);
             }
         } else {
-            var cable = cloneTemplate(cableTemp);
-            if (!singleLengthTemplate) {
-                return false;
-            }
-            var singleLengthDiv = cable.children.namedItem(singleLengthTemplate.id);
-            singleLengthDiv.setAttribute("id", singleLengthDiv.id.replace("template-", "").trim());
             arr.push(cable);
             for (var i = 1; i <= 2; i++) {
                 var ferr = cloneTemplate(ferrTemp);
@@ -184,7 +183,7 @@ function setupCableForm(type) {
 
 function next(e) {
     if (e && e.nextElementSibling) {
-        var ul = document.getElementById("inventory-catalog");
+        var ul = document.getElementById("inventory_catalog");
         if (ul) {
             empty(ul);
             ul.parentElement.classList.add('hide');
@@ -196,7 +195,7 @@ function next(e) {
 
 function back(e) {
     if (e && e.previousElementSibling) {
-        var ul = document.getElementById("inventory-catalog");
+        var ul = document.getElementById("inventory_catalog");
         if (ul) {
             empty(ul);
             ul.parentElement.classList.add('hide');
